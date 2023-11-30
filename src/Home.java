@@ -9,11 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 
 
@@ -63,9 +66,18 @@ public class Home extends JFrame {
 			gbinsert(this.getContentPane(), PostPart, 1, 0, 3, 1);
 			
 			JPanel postSeeParts = new JPanel();
+			HomeModel postModel = new HomeModel(name);
+			JList<String> postList = new JList<String>(postModel);
+			postList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
+			
+			postModel.InsertMine(name);
+			postModel.InsertFollowing(name);
+			
+			JButton viewPost = new JButton("view post");
 			postSeeParts.setLayout(new BorderLayout());
 			postSeeParts.add(new JLabel("See your following posts:"), BorderLayout.NORTH);
-			postSeeParts.add(new JScrollPane(new TextArea(5,30)), BorderLayout.CENTER);
+			postSeeParts.add(new JScrollPane(postList), BorderLayout.CENTER);
+			postSeeParts.add(viewPost, BorderLayout.SOUTH);
 			gbinsert(this.getContentPane(), postSeeParts, 1, 1, 3, 2);
 			
 			this.pack();
@@ -79,14 +91,14 @@ public class Home extends JFrame {
 			
 			explore.addActionListener(new ActionListener(){
 	            public void actionPerformed(ActionEvent arg0) {
-	          
+	            	new ExploreView(name);
 	            }
 	        });
 			
 			
 			profile.addActionListener(new ActionListener(){
 	            public void actionPerformed(ActionEvent arg0) {
-	            	new UserProfileView(name);
+	            	new UserProfileView(name, name);
 	            }
 	        });
 			
@@ -103,15 +115,39 @@ public class Home extends JFrame {
 			
 			Logout.addActionListener(new ActionListener(){
 	            public void actionPerformed(ActionEvent arg0) {
-	            	dispose();
-	            
+	            	dispose();   
 	                LoginView view = new LoginView();
 	                view.setVisible(true);
 	            }
 	        });
 			
 			
-			
+			viewPost.addActionListener(new ActionListener() {
+				
+				public void actionPerformed(ActionEvent arg0) {
+					String for_id = postList.getSelectedValue();
+					String post_id = null;
+					int first = -1;
+					int second = -1;
+					
+					for(int i = 0; i < for_id.length(); i++)
+					{
+						if( for_id.charAt(i) == '(')
+						{
+							first = i;
+						}
+						
+						if(for_id.charAt(i) == ')')
+						{
+							second = i;
+						}
+					}
+					
+					post_id = for_id.substring(first + 1, second);
+					new postView(post_id);
+	            }
+				
+			});
 			
 
 			

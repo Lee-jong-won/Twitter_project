@@ -33,22 +33,21 @@ public class ViewFollowing extends JFrame {
 		view = new JButton("view");
 		label = new JLabel("your following:");
 		scrolled = new JScrollPane(list);
-		
+		//JComponent definition
 		
 		view.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				new UserProfileView(list.getSelectedValue());
+				new UserProfileView(list.getSelectedValue(), name);
 			}
 		});
+		//if you click view button, tho profile of the person you follow appears to you 
 		
-		
-		
-		
+					
 		contentPane.add(label, "North");
 		contentPane.add(scrolled, "Center");
 		contentPane.add(view, "South");	
-		
+		//Add components to Jframe's contentpanel
 		
 		pack();
 	    this.setSize(300, 250);

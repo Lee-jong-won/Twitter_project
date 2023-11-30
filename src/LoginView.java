@@ -55,7 +55,7 @@ public class LoginView extends JFrame {
         txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
         txtPassword.setBounds(140, 52, 200, 25);
         contentPane.add(txtPassword);
-        //gui component�뱾 �젙�쓽
+        //gui component definition
 
         final LoginController controller = new LoginController(this);
         btnLogin = new JButton("Login");
@@ -79,8 +79,12 @@ public class LoginView extends JFrame {
 	
 			}
 		});
+		//If you click login button, login function is activated by controller which performs comparing password and name with DB
+		//If you don't write ID, "please write ID" message appears to you
+		//If you don't write password, "please write password" message appears to you
+		//If you write ID and password, but it is not correct with DB, "Login failed" message appears to you
 		
-		/*enter 눌렀을 때, 로그인 기능 활성화 시키기 코드
+		/*enter 눌렀을 때, 로그인 기능 활성화 시키기 코드 미완성
 		btnLogin.addKeyListener( new KeyListener() {
 			public void keyReleased(KeyEvent e) {
 				int keyCode = e.getKeyCode();
@@ -154,7 +158,7 @@ public class LoginView extends JFrame {
     	return name;
     }
 
-    //硫붿씤
+    
     public static void main(String args[]){
         LoginView view = new LoginView();
         view.setVisible(true);

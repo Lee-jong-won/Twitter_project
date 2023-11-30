@@ -17,27 +17,30 @@ public class UserProfileModel {
 	{
 		username = new_name;
 	}
+	//It is UserProfileModel's constructor.  
 	
 	
 	public int GetFollowingNum()
 	{
 		return following_Num;
 	}
+	//It must be used after setFollowng_Num method is invoked
 	
 	public int GetFollowerNum()
 	{
 		return follower_Num;
 	}
+	//It must be used after setFollower_Num method is invoked
 	
 	public void setFollowing_Num()
 	{
 		try {
 
 			String url = "jdbc:mysql://localhost/twitter";
-			String user = "root", passwd = "h6644h7749";
+			String user = "root", passwd = "010208";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(url, user, passwd);
-			PreparedStatement select = conn.prepareStatement("SELECT count(*) FROM follower where follower_id = ?");
+			PreparedStatement select = conn.prepareStatement("SELECT count(*) FROM following where user_user_id = ?");
 			select.setString(1, username);
 			ResultSet rs = select.executeQuery();
 
@@ -60,7 +63,9 @@ public class UserProfileModel {
                 e.printStackTrace();
             }
         }
+	
     }
+	//Read following number of people that specific user follows
 	
 	
 	
@@ -69,10 +74,10 @@ public class UserProfileModel {
 		try {
 
 			String url = "jdbc:mysql://localhost/twitter";
-			String user = "root", passwd = "h6644h7749";
+			String user = "root", passwd = "010208";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(url, user, passwd);
-			PreparedStatement select = conn.prepareStatement("SELECT count(*) FROM follower where user_id = ?");
+			PreparedStatement select = conn.prepareStatement("SELECT count(*) FROM follower where user_user_id = ?");
 			select.setString(1, username);
 			ResultSet rs = select.executeQuery();
 
@@ -98,6 +103,8 @@ public class UserProfileModel {
 		
 		
 	}
+	//Read follower number of people that follows specific user
 	
-	
+		
 }
+

@@ -17,7 +17,6 @@ public class ViewFollower extends JFrame{
 	private JScrollPane scrolled;
 	
 	
-	
 	public ViewFollower(String name)
 	{
 		setTitle("follower");
@@ -32,20 +31,23 @@ public class ViewFollower extends JFrame{
 		view = new JButton("view");
 		label = new JLabel("your follower:");
 		scrolled = new JScrollPane(list);
+		//JComponent definition
+		
 		
 		view.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				new UserProfileView(list.getSelectedValue());
+				new UserProfileView(list.getSelectedValue(), name);
 			}
 		});
+		//If user click view button, profile whose name is selected in list by user appears to user.
 		
 		
 		
 		contentPane.add(label, "North");
 		contentPane.add(scrolled, "Center");
 		contentPane.add(view, "South");	
-		
+		//Add components to JFrame's contentpane
 		
 		
 		

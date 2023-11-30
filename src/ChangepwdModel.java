@@ -30,7 +30,7 @@ public class ChangepwdModel {
     public void changethema() {
     	try {
     		String url = "jdbc:mysql://localhost/twitter";
-    		String user = "root", passwd = "h6644h7749";
+    		String user = "root", passwd = "010208";
     		Class.forName("com.mysql.cj.jdbc.Driver");
     		conn = DriverManager.getConnection(url, user, passwd);   		
     		
@@ -57,7 +57,7 @@ public class ChangepwdModel {
     	
     	try {
     		String url = "jdbc:mysql://localhost/twitter";
-    		String user = "root", passwd = "h6644h7749";
+    		String user = "root", passwd = "010208";
     		Class.forName("com.mysql.cj.jdbc.Driver");
     		conn = DriverManager.getConnection(url, user, passwd);
     		
@@ -89,7 +89,7 @@ public class ChangepwdModel {
     
 	try {
 		String url = "jdbc:mysql://localhost/twitter";
-		String user = "root", passwd = "h6644h7749";
+		String user = "root", passwd = "010208";
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		conn = DriverManager.getConnection(url, user, passwd);
 		

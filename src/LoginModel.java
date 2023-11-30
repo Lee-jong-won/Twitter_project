@@ -26,7 +26,7 @@ public class LoginModel {
     	try {
 
 			String url = "jdbc:mysql://localhost/twitter";
-			String user = "root", passwd = "h6644h7749";
+			String user = "root", passwd = "010208";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(url, user, passwd);
 			
@@ -40,10 +40,16 @@ public class LoginModel {
 				return 0;
 			} else {
 				//else make new account
-				
-				String s1 = "insert into user values ( \'" + name + "\',  \'" + password + "\')";
-				
-				select = conn.prepareStatement(s1);
+				 
+				/*
+				String s1 = "insert into user values ( \'" + name + "\',  \'" + password + "\' 1\')";
+				*/
+				String s1 = "insert into user values (?, ? ,?)";
+						
+				select = conn.prepareStatement(s1);				
+				select.setString(1, name);
+				select.setString(2, password);
+				select.setString(3, "1");
 	    		select.executeUpdate();
 				
 				return 1;
@@ -68,7 +74,7 @@ public class LoginModel {
 		try {
 
 			String url = "jdbc:mysql://localhost/twitter";
-			String user = "root", passwd = "h6644h7749";
+			String user = "root", passwd = "010208";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(url, user, passwd);
 			PreparedStatement select = conn.prepareStatement("SELECT * FROM User where user_id = ?");
@@ -93,4 +99,6 @@ public class LoginModel {
             }
         }
     }
+    //Get credential by comparing one user's password with DB.
+    //If password from user coincides with the password that is derived from DB by using the name from user
 }

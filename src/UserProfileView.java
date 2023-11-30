@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
@@ -7,19 +8,24 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 
 public class UserProfileView extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel info_area;
 	private JLabel user_Mark;
-	private JLabel user_Name;
-		
+	
+	private JPanel number_info;
+	
 	private JPanel follower_area;
 	private JLabel follower_num;
 	private JLabel follower_mark;
@@ -30,31 +36,47 @@ public class UserProfileView extends JFrame{
 	private JLabel following_mark;
 	private JButton following_view;
 	
-	public UserProfileView(String name)
+	private JButton follow_Bttn;
+	
+	private JPanel postarea;
+	private JList<String> Postlist;
+	private UserProfileModel2 Model2;
+	private JButton view_Post;
+	private JScrollPane scrolled;
+	
+	public UserProfileView(String name, String login_name)
 	{
 		setTitle("Profile");
-		setResizable(false);
+		setResizable(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		Container contentPane = this.getContentPane();
-		contentPane.setLayout(new GridBagLayout());
+		contentPane.setLayout(new BorderLayout());
 		
 		
 		info_area = new JPanel();
-		info_area.setLayout(new BoxLayout(info_area, BoxLayout.Y_AXIS));
-		gbinsert(contentPane, info_area, 0, 0, 1, 1, 2, 1 );
 		user_Mark = new JLabel("  Username:" + name);
-		info_area.add(user_Mark);
+		info_area.add(user_Mark);	
+		contentPane.add(info_area, BorderLayout.NORTH);
+		//Info area's JComponent definition
 		
-				
+		number_info = new JPanel();
+		number_info.setLayout(new BoxLayout(number_info, BoxLayout.Y_AXIS));
+		
+		follow_Bttn = new JButton("follow");
+		if(name.compareToIgnoreCase(login_name) == 0)
+		{
+			follow_Bttn.setEnabled(false);
+		}
+
 		following_area = new JPanel();
 		following_mark = new JLabel("following");
 		following_num = new JLabel("num:");
 		following_view = new JButton("view:");
 		following_area.setLayout(new BoxLayout(following_area, BoxLayout.Y_AXIS));
-		following_area.setBorder(BorderFactory.createTitledBorder("following"));
-		gbinsert(contentPane, following_area, 0, 1, 1, 1, 3, 1);		
+		following_area.setBorder(BorderFactory.createTitledBorder("following"));		
 		following_area.add(following_num);
 		following_area.add(following_view);
+		//following area JComponent definition
 		
 		
 		following_view.addActionListener(new ActionListener() {
@@ -63,7 +85,7 @@ public class UserProfileView extends JFrame{
 				new ViewFollowing(name);
 			}
 		});
-		
+		//If you click view button in the following area, the following list of people that follow you appears to you
 		
 		
 		
@@ -73,9 +95,9 @@ public class UserProfileView extends JFrame{
 		follower_view = new JButton("view");
 		follower_area.setLayout(new BoxLayout(follower_area, BoxLayout.Y_AXIS));
 		follower_area.setBorder(BorderFactory.createTitledBorder("follower"));
-		gbinsert(contentPane, follower_area, 1, 1, 1, 1, 3, 1);
 		follower_area.add(follower_num);
 		follower_area.add(follower_view);
+		//follower area JComponent definition
 		
 		
 		follower_view.addActionListener(new ActionListener() {
@@ -84,8 +106,56 @@ public class UserProfileView extends JFrame{
 				new ViewFollower(name);
 			}
 		});
+		//If you click view button in the follower area, the follower list of people that you follow appears to you
 
+		number_info.add(follow_Bttn);
+		number_info.add(following_area);
+		number_info.add(follower_area);
+		contentPane.add(number_info, BorderLayout.WEST);
 		
+		
+		postarea = new JPanel();
+		Model2 = new UserProfileModel2(name);
+		Model2.InsertMine();
+		Postlist = new JList<String>(Model2);
+		Postlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrolled = new JScrollPane(Postlist);
+		view_Post = new JButton("view");
+		
+		view_Post.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				String for_id = Postlist.getSelectedValue();
+				String post_id = null;
+				int first = -1;
+				int second = -1;
+				
+				for(int i = 0; i < for_id.length(); i++)
+				{
+					if( for_id.charAt(i) == '(')
+					{
+						first = i;
+					}
+					
+					if(for_id.charAt(i) == ')')
+					{
+						second = i;
+					}
+				}
+				
+				post_id = for_id.substring(first + 1, second);
+				new postView(post_id);
+			}
+		});
+		
+		
+		
+		
+		postarea.setLayout(new BorderLayout());
+		postarea.add(scrolled, BorderLayout.CENTER);
+		postarea.add(view_Post, BorderLayout.SOUTH);
+		
+		contentPane.add(postarea, BorderLayout.CENTER);
 		
 		UserProfileController controller = new UserProfileController(this, name);		
 		following_num.setText("num:" + controller.GetFollowingNum());		
@@ -93,22 +163,11 @@ public class UserProfileView extends JFrame{
 				
 				
 		pack();
-	    this.setSize(300, 250);
 	    setVisible(true);   	    
 	}
 	
 	
-	public void gbinsert(Container ct, Component c, int x, int y, int w, int h, int pad_x, int pad_y){
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill= GridBagConstraints.BOTH;
-        gbc.gridx = x;
-        gbc.gridy = y;
-        gbc.gridwidth = w;
-        gbc.gridheight = h;
-        gbc.ipadx = pad_x;
-        gbc.ipady = pad_y;
-        ct.add(c, gbc);
- }	 
+	
 	
 	
 }

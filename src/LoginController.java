@@ -40,5 +40,6 @@ public class LoginController {
         else{                                                                     
             view.setErrorMessage("Login Failed!");                                
         }                                                                         
-    }                                                                             
+    }
+    
 }       

@@ -23,10 +23,10 @@ public class ViewFollowingModel extends DefaultListModel<String>{
 		try {
 
 			String url = "jdbc:mysql://localhost/twitter";
-			String user = "root", passwd = "h6644h7749";
+			String user = "root", passwd = "010208";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(url, user, passwd);
-			PreparedStatement select = conn.prepareStatement("SELECT user_id FROM follower where follower_id = ?");
+			PreparedStatement select = conn.prepareStatement("SELECT f_id FROM following where user_user_id = ?");
 			select.setString(1, username);
 			ResultSet rs = select.executeQuery();
 			
@@ -48,6 +48,8 @@ public class ViewFollowingModel extends DefaultListModel<String>{
                 e.printStackTrace();
             }
         }
+		
+		//Read following info from db and save into DefaultListModel
 	}
 	
 	
@@ -56,10 +58,10 @@ public class ViewFollowingModel extends DefaultListModel<String>{
 		try {
 
 			String url = "jdbc:mysql://localhost/twitter";
-			String user = "root", passwd = "h6644h7749";
+			String user = "root", passwd = "010208";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(url, user, passwd);
-			PreparedStatement select = conn.prepareStatement("SELECT follower_id FROM follower where user_id = ?");
+			PreparedStatement select = conn.prepareStatement("SELECT f_id FROM follower where user_user_id = ?");
 			select.setString(1, username);
 			ResultSet rs = select.executeQuery();
 			
@@ -81,9 +83,8 @@ public class ViewFollowingModel extends DefaultListModel<String>{
                 e.printStackTrace();
             }
         }
+		
+		
 	}
-	
-	
-	
-	
+	//Read follower info from db and save into DefaultListModel
 }
