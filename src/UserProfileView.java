@@ -52,6 +52,7 @@ public class UserProfileView extends JFrame{
 		Container contentPane = this.getContentPane();
 		contentPane.setLayout(new BorderLayout());
 		
+		UserProfileController controller = new UserProfileController(this, name);	
 		
 		info_area = new JPanel();
 		user_Mark = new JLabel("  Username:" + name);
@@ -67,6 +68,14 @@ public class UserProfileView extends JFrame{
 		{
 			follow_Bttn.setEnabled(false);
 		}
+		follow_Bttn.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				new ViewFollowing(name);
+			}
+		});
+
+		
 
 		following_area = new JPanel();
 		following_mark = new JLabel("following");
@@ -144,7 +153,7 @@ public class UserProfileView extends JFrame{
 				}
 				
 				post_id = for_id.substring(first + 1, second);
-				new postView(post_id);
+				new postView(name, post_id);
 			}
 		});
 		
@@ -153,11 +162,9 @@ public class UserProfileView extends JFrame{
 		
 		postarea.setLayout(new BorderLayout());
 		postarea.add(scrolled, BorderLayout.CENTER);
-		postarea.add(view_Post, BorderLayout.SOUTH);
-		
+		postarea.add(view_Post, BorderLayout.SOUTH);		
 		contentPane.add(postarea, BorderLayout.CENTER);
-		
-		UserProfileController controller = new UserProfileController(this, name);		
+			
 		following_num.setText("num:" + controller.GetFollowingNum());		
 		follower_num.setText("Num:" + controller.GetFollowerNum());
 				

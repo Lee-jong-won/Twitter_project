@@ -31,7 +31,7 @@ public class Changepwd extends JFrame{
 		 
         setTitle("Password Change");
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 250, 250);
         Container contentPane = this.getContentPane();
         contentPane.setLayout(null);

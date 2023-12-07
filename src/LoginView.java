@@ -84,43 +84,7 @@ public class LoginView extends JFrame {
 		//If you don't write password, "please write password" message appears to you
 		//If you write ID and password, but it is not correct with DB, "Login failed" message appears to you
 		
-		/*enter 눌렀을 때, 로그인 기능 활성화 시키기 코드 미완성
-		btnLogin.addKeyListener( new KeyListener() {
-			public void keyReleased(KeyEvent e) {
-				int keyCode = e.getKeyCode();
-				if(keyCode == KeyEvent.VK_ENTER)
-				{
-					boolean flag1 = controller.checkIDnowrite(txtUsername.getText());
-					boolean flag2 = controller.checkpasswordnowrite(new String(txtPassword.getPassword()));
-					
-					if(!flag1 && !flag2)
-					{
-						controller.checkCredentials(txtUsername.getText(), new String(txtPassword.getPassword()));		
-						if(lblErrorMessage.getText().compareToIgnoreCase("Login Success!") == 0)
-		                {
-		                	new Home(txtUsername.getText());
-		                	dispose();
-		                }
-						
-					}
-				}
-			}
 
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		
-		
-		} );
-		*/
 		
         btnLogin.setFont(new Font("Tahoma", Font.PLAIN , 14));
         btnLogin.setBounds(251, 93, 89, 25);
@@ -162,8 +126,6 @@ public class LoginView extends JFrame {
     public static void main(String args[]){
         LoginView view = new LoginView();
         view.setVisible(true);
-        
-        
-                
+                       
     }
 }

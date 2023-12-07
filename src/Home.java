@@ -7,6 +7,7 @@ import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -23,9 +24,7 @@ import javax.swing.ListSelectionModel;
 public class Home extends JFrame {
 	
  
-	 /**
-	 * 
-	 */
+	 
 	private static final long serialVersionUID = 1L;
 
 
@@ -54,8 +53,11 @@ public class Home extends JFrame {
 			JButton Setting = new JButton("Setting");
 			gbinsert(Buttonset, Setting, 0, 2, 1, 1);
 			
+			JButton Chatting = new JButton("Chatting");
+			gbinsert(Buttonset, Chatting, 0, 3, 1, 1);
+			
 			JButton Logout = new JButton("Log Out");
-			gbinsert(Buttonset, Logout, 0, 3, 1, 1);
+			gbinsert(Buttonset, Logout, 0, 4, 1, 1);
 			
 							
 			JPanel PostPart = new JPanel();	
@@ -66,12 +68,12 @@ public class Home extends JFrame {
 			gbinsert(this.getContentPane(), PostPart, 1, 0, 3, 1);
 			
 			JPanel postSeeParts = new JPanel();
-			HomeModel postModel = new HomeModel(name);
-			JList<String> postList = new JList<String>(postModel);
+			HomeModel Home_Model = new HomeModel(name);
+			JList<String> postList = new JList<String>(Home_Model);
 			postList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
 			
-			postModel.InsertMine(name);
-			postModel.InsertFollowing(name);
+			Home_Model.InsertMine(name);
+			Home_Model.InsertFollowing(name);
 			
 			JButton viewPost = new JButton("view post");
 			postSeeParts.setLayout(new BorderLayout());
@@ -112,6 +114,40 @@ public class Home extends JFrame {
 	        });
 			
 			
+			write_Button.addActionListener(new ActionListener() {
+			    public void actionPerformed(ActionEvent arg0) {
+					//String postName = post_Text.getText();
+					String postContent = post_Text.getText();
+					
+					int new_postid = postModel.getNewIndex();
+					postModel.insertContent("p" + new_postid, postContent, name);		
+			        new postView(name, "p" + new_postid);
+			        dispose();
+			        new Home(name);
+			    }
+			});
+			
+			
+			Chatting.addActionListener(new ActionListener() {
+			    public void actionPerformed(ActionEvent arg0) {
+			        int portNumber = 12345;
+			        Thread serverThread = new Thread(() -> {
+			            ChattingServer chatServer = new ChattingServer(portNumber);
+			            try {
+			                chatServer.run(); // You might want to consider using start() if run() is not overridden
+			            } catch (IOException e) {
+			                e.printStackTrace();
+			            }
+			        });
+			        serverThread.start();
+
+			        new ChattingView();
+			    }
+			});
+
+			
+			
+			
 			
 			Logout.addActionListener(new ActionListener(){
 	            public void actionPerformed(ActionEvent arg0) {
@@ -144,7 +180,7 @@ public class Home extends JFrame {
 					}
 					
 					post_id = for_id.substring(first + 1, second);
-					new postView(post_id);
+					new postView(name, post_id);
 	            }
 				
 			});
